@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>TECH DETECTIVE — YEAR ONE</title>
+<style>
+:root{
+  --bg:#09070b; --panel:#151018; --panel2:#1d1620; --pink:#ff2b8a;
+  --pink2:#ff5ba8; --text:#f8f3f7; --muted:#aaa0aa; --line:#342a35;
+  --good:#58e0a0; --bad:#ff657d; --yellow:#ffd166;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 50% -10%,#351329 0,#09070b 42%);
+font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{width:min(720px,100%);margin:auto;padding:18px 16px 40px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.brand{font-weight:900;letter-spacing:.12em;font-size:14px}
+.badge{border:1px solid #63304b;color:#ff9ac6;padding:6px 9px;border-radius:999px;font-size:11px}
+.screen{display:none}.screen.active{display:block}
+.hero{text-align:center;padding:35px 5px 25px}
+.kicker{color:var(--pink2);font-weight:800;letter-spacing:.16em;font-size:12px}
+h1{font-size:clamp(42px,12vw,76px);line-height:.9;margin:13px 0 14px;letter-spacing:-.06em}
+h2{font-size:30px;margin:5px 0 10px;letter-spacing:-.03em}
+p{color:var(--muted);line-height:1.55}
+.panel{background:linear-gradient(145deg,#181219,#100d12);border:1px solid var(--line);border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 12px 40px #0005}
+.alert{border-left:4px solid var(--pink);padding-left:14px}
+input{width:100%;background:#0e0b10;border:1px solid #463845;color:white;border-radius:12px;padding:15px 14px;outline:none}
+input:focus{border-color:var(--pink);box-shadow:0 0 0 3px #ff2b8a22}
+.btn{width:100%;border:0;border-radius:12px;padding:15px 16px;font-weight:900;margin-top:12px}
+.primary{background:var(--pink);color:#fff}.secondary{background:#211923;color:#fff;border:1px solid #453542}
+.meta{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted)}
+.timer{font-variant-numeric:tabular-nums;color:#fff;font-weight:900}
+.timer.danger{color:var(--bad)}
+.casebar{display:flex;justify-content:space-between;align-items:center;margin:8px 0 12px}
+.case{font-size:12px;color:var(--pink2);font-weight:800;letter-spacing:.1em}
+.progress{height:6px;background:#241d25;border-radius:99px;overflow:hidden;margin-bottom:20px}
+.progress i{display:block;height:100%;background:var(--pink);width:25%;transition:.3s}
+.evidence{font-size:11px;letter-spacing:.12em;color:var(--muted);font-weight:900}
+.clue{font-size:18px;line-height:1.55;color:#fff;margin:12px 0 18px}
+.log{background:#0d0b0e;border:1px solid #302730;border-radius:12px;padding:14px;font-family:ui-monospace,SFMono-Regular,monospace;font-size:13px;line-height:1.8;color:#d7cfd7;overflow:auto}
+.option{width:100%;text-align:left;background:#171218;color:#eee;border:1px solid #3a303b;border-radius:12px;padding:14px;margin:7px 0}
+.option:hover{border-color:#8b4b6e}
+.feedback{margin-top:12px;padding:12px;border-radius:10px;font-size:13px;display:none}
+.feedback.good{display:block;background:#10251d;color:var(--good);border:1px solid #24563f}
+.feedback.bad{display:block;background:#2b1319;color:#ff9eab;border:1px solid #63303b}
+.hint{color:var(--yellow);font-size:13px;margin-top:12px}
+.small{font-size:12px;color:var(--muted)}
+.scorebig{font-size:54px;font-weight:950;letter-spacing:-.05em;color:var(--pink2)}
+.rank{font-size:14px;color:var(--muted)}
+.leader{margin-top:15px}
+.row{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}.rankno{color:var(--pink2);font-weight:900}.pts{font-weight:900}
+.hidden{display:none!important}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.rule{background:#120e13;border:1px solid var(--line);padding:12px;border-radius:12px;text-align:center;font-size:11px;color:var(--muted)}
+.rule b{display:block;color:#fff;font-size:15px;margin-bottom:4px}
+@media(max-width:420px){.app{padding:14px 12px 30px}.panel{padding:17px}.rules{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><div class="brand">TECH DETECTIVE</div><div class="badge">YEAR ONE // CASE FILE</div></div>
+
+  <section id="start" class="screen active">
+    <div class="hero">
+      <div class="kicker">SYSTEM ALERT</div>
+      <h1>TECH<br>DETECTIVE</h1>
+      <p>A critical file disappeared during the Year One anniversary launch. Four suspects. Four pieces of evidence. One final password.</p>
+    </div>
+    <div class="panel">
+      <div class="alert">
+        <b>MISSION OBJECTIVE</b>
+        <p>Analyse the evidence, identify what caused the incident, then unlock the system before the timer reaches zero.</p>
+      </div>
+      <div style="margin-top:18px">
+        <label class="small">DETECTIVE NAME</label>
+        <input id="name" maxlength="24" placeholder="Enter your name">
+        <button class="btn primary" onclick="startGame()">START INVESTIGATION →</button>
+      </div>
+      <div class="rules">
+        <div class="rule"><b>15:00</b>TIME LIMIT</div>
+        <div class="rule"><b>4</b>EVIDENCE FILES</div>
+        <div class="rule"><b>1</b>FINAL EXIT</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="game" class="screen">
+    <div class="casebar"><span class="case" id="caseNo">CASE #001</span><span class="timer" id="timer">15:00</span></div>
+    <div class="progress"><i id="progress"></i></div>
+    <div class="panel">
+      <div class="evidence" id="evidence">EVIDENCE 01 / 04</div>
+      <h2 id="title">Access Log</h2>
+      <div id="content"></div>
+      <button id="hintBtn" class="btn secondary" onclick="showHint()">REQUEST HINT −50 PTS</button>
+      <div id="hint" class="hint hidden"></div>
+      <div id="feedback" class="feedback"></div>
+    </div>
+    <div class="meta"><span>Score: <b id="score">0</b></span><span>Clues solved: <b id="solved">0</b>/4</span></div>
+  </section>
+
+  <section id="final" class="screen">
+    <div class="hero">
+      <div class="kicker">INVESTIGATION COMPLETE</div>
+      <h1>CASE<br>SOLVED</h1>
+      <p id="finalText"></p>
+      <div class="scorebig" id="finalScore">0</div>
+      <div class="rank" id="finalRank"></div>
+    </div>
+    <div class="panel">
+      <div class="evidence">FINAL SYSTEM PASSWORD</div>
+      <h2 id="password">—</h2>
+      <p id="explanation"></p>
+      <button class="btn primary" onclick="showLeaderboard()">VIEW LEADERBOARD</button>
+      <button class="btn secondary" onclick="location.reload()">NEW INVESTIGATION</button>
+    </div>
+  </section>
+
+  <section id="leaderboard" class="screen">
+    <div class="hero" style="padding-bottom:10px">
+      <div class="kicker">YEAR ONE // HALL OF FAME</div>
+      <h2>DETECTIVE<br>LEADERBOARD</h2>
+      <p>Prototype leaderboard is stored on this device. For an event-wide live leaderboard, connect the site to Supabase/Firebase.</p>
+    </div>
+    <div class="panel leader" id="board"></div>
+    <button class="btn secondary" onclick="location.reload()">BACK TO START</button>
+  </section>
+</div>
+
+<script>
+const cases = [
+{
+ id:"027", affected:"PARTNER PORTAL", incident:"0942", trigger:"TRAFFIC SPIKE",
+ culprit:"AUTOMATION BOT",
+ password:"PARTNER027",
+ clues:[
+  {
+   title:"ACCESS LOG",
+   html:`<div class="clue">The dashboard went offline at <b>09:42</b>. Which system was accessed immediately before the incident?</div>
+   <div class="log">09:39 USER: analyst → DATA HUB<br>09:40 USER: developer → DEV CONSOLE<br>09:41 PROCESS: automation_bot → PARTNER PORTAL<br>09:42 ALERT: dashboard_offline</div>
+   <div id="options"></div>`,
+   options:["DATA HUB","DEV CONSOLE","PARTNER PORTAL","MEMBER SYSTEM"], answer:2,
+   hint:"Look at the process entry at 09:41."
+  },
+  {
+   title:"TRAFFIC ANOMALY",
+   html:`<div class="clue">A normal hour produces about <b>400 requests</b>. At the incident time, one service recorded a sudden spike.</div>
+   <div class="log">DATA HUB ........ 388 requests<br>MEMBER SYSTEM ... 421 requests<br>PARTNER PORTAL .. <b>1,847 requests</b><br>DEV CONSOLE ..... 96 requests</div>
+   <div id="options"></div>`,
+   options:["Data Hub","Member System","Partner Portal","Dev Console"], answer:2,
+   hint:"Compare each value with the normal level of ~400."
+  },
+  {
+   title:"AUTOMATION RULE",
+   html:`<div class="clue">The engineering team found this rule running shortly before the outage:</div>
+   <div class="log">IF requests_per_minute &gt; 1000<br>&nbsp;&nbsp;THEN download_latest_file()<br>&nbsp;&nbsp;AND notify_admin()<br>END</div>
+   <div id="options"></div>`,
+   options:["Manual user download","Traffic-triggered automation","Database failure","Scheduled maintenance"], answer:1,
+   hint:"The rule activates when requests exceed 1,000."
+  },
+  {
+   title:"FINAL VERDICT",
+   html:`<div class="clue">You now have enough evidence. What most likely caused the incident?</div><div id="options"></div>`,
+   options:["A developer accidentally deleted the file","A database server failed","A traffic spike triggered an automated process","An analyst changed the dashboard"], answer:2,
+   hint:"Combine Evidence 01, 02 and 03."
+  }
+]}
+];
+
+let state={name:"",score:0,step:0,hints:0,started:0,end:0,case:null,caseSolved:false};
+
+function $(id){return document.getElementById(id)}
+function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(id).classList.add("active")}
+function startGame(){
+  const n=$("name").value.trim();
+  if(!n){$("name").focus(); return}
+  state.name=n; state.case=cases[Math.floor(Math.random()*cases.length)];
+  state.started=Date.now(); state.end=state.started+15*60*1000;
+  state.score=0;state.step=0;state.hints=0;state.caseSolved=false;
+  $("caseNo").textContent="CASE #"+state.case.id; show("game"); renderStep(); tick();
+}
+function tick(){
+  if(!state.end)return;
+  const left=Math.max(0,state.end-Date.now()), sec=Math.floor(left/1000), m=Math.floor(sec/60), s=sec%60;
+  $("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  $("timer").classList.toggle("danger",sec<=60);
+  if(left<=0 && !state.caseSolved){ finish(false); return }
+  requestAnimationFrame(tick);
+}
+function renderStep(){
+  const c=state.case.clues[state.step];
+  $("evidence").textContent=`EVIDENCE ${String(state.step+1).padStart(2,"0")} / 04`;
+  $("title").textContent=c.title;
+  $("content").innerHTML=c.html;
+  const box=$("options"); box.innerHTML="";
+  c.options.forEach((o,i)=>{
+    const b=document.createElement("button");b.className="option";b.textContent=o;
+    b.onclick=()=>answer(i);box.appendChild(b);
+  });
+  $("hint").classList.add("hidden");$("hint").textContent="";
+  $("feedback").className="feedback";$("feedback").textContent="";
+  $("hintBtn").disabled=false;$("hintBtn").style.opacity=1;
+  $("progress").style.width=((state.step)/4*100+25)+"%";
+}
+function answer(i){
+  const c=state.case.clues[state.step], fb=$("feedback");
+  document.querySelectorAll(".option").forEach(b=>b.disabled=true);
+  if(i===c.answer){
+    const points=[100,150,200,250][state.step];
+    state.score+=points;
+    fb.className="feedback good";fb.textContent=`✓ CORRECT — Evidence secured. +${points} points`;
+    $("score").textContent=state.score;$("solved").textContent=state.step+1;
+    setTimeout(()=>{state.step++; if(state.step<4)renderStep(); else finish(true)},650);
+  }else{
+    state.score=Math.max(0,state.score-25);
+    fb.className="feedback bad";fb.textContent="✕ INCORRECT — −25 points. Analyse the evidence again.";
+    $("score").textContent=state.score;
+    document.querySelectorAll(".option").forEach(b=>b.disabled=false);
+  }
+}
+function showHint(){
+  const c=state.case.clues[state.step];
+  if($("hint").classList.contains("hidden")){
+    state.score=Math.max(0,state.score-50);state.hints++;
+    $("score").textContent=state.score;$("hint").textContent="HINT: "+c.hint;$("hint").classList.remove("hidden");
+    $("hintBtn").disabled=true;$("hintBtn").style.opacity=.45;
+  }
+}
+function finish(solved){
+  state.caseSolved=solved;
+  if(solved){
+    const remaining=Math.max(0,Math.floor((state.end-Date.now())/1000));
+    const speed=Math.min(500,remaining);
+    state.score+=500+speed;
+    $("finalText").textContent="Excellent work, Detective "+state.name+". You connected the evidence and identified the trigger.";
+    $("password").textContent=state.case.password;
+    $("explanation").textContent="The Partner Portal experienced a traffic spike. The spike crossed the automation threshold, triggering the bot process that caused the incident.";
+  }else{
+    $("finalText").textContent="TIME EXPIRED. The system locked before the investigation was completed.";
+    $("password").textContent="LOCKED";
+    $("explanation").textContent="The case can be restarted. Try to solve each evidence file without using hints.";
+  }
+  $("finalScore").textContent=state.score.toLocaleString()+" PTS";
+  saveScore(); show("final");
+}
+function saveScore(){
+  const arr=JSON.parse(localStorage.getItem("techDetectiveScores")||"[]");
+  arr.push({name:state.name,score:state.score,solved:state.caseSolved,time:Date.now()});
+  arr.sort((a,b)=>b.score-a.score); localStorage.setItem("techDetectiveScores",JSON.stringify(arr.slice(0,10)));
+  const rank=arr.findIndex(x=>x.time===state.time)+1;
+  $("finalRank").textContent=state.caseSolved?"YEAR ONE CASE COMPLETE • SCORE ADDED":"CASE INCOMPLETE";
+}
+function showLeaderboard(){
+  const arr=JSON.parse(localStorage.getItem("techDetectiveScores")||"[]");
+  $("board").innerHTML=arr.length?arr.map((x,i)=>`<div class="row"><div class="rankno">#${i+1}</div><div><b>${escapeHtml(x.name)}</b><div class="small">${x.solved?"CASE SOLVED":"TIME EXPIRED"}</div></div><div class="pts">${x.score.toLocaleString()}</div></div>`).join(""):`<p>No detectives yet.</p>`;
+  show("leaderboard");
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+</script>
+</body>
+</html>
