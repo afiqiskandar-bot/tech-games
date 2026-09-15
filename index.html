@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09070b"><title>THE EXIT — YEAR ONE</title>
+<link rel="stylesheet" href="style.css"></head>
+<body><main class="app">
+<header><b>THE EXIT</b><span>YEAR ONE // DIGITAL ESCAPE</span></header>
+
+<section id="start" class="screen active">
+<div class="hero"><small>SYSTEM LOCKDOWN</small><h1>THE<br>EXIT</h1>
+<p>Four puzzles. One final code. <b>15 minutes.</b></p>
+<p>Year One has been archived behind a digital lock. Solve the clues, collect the four digits and escape.</p></div>
+<div class="card"><label>PLAYER NAME</label><input id="name" maxlength="24" placeholder="Enter your name">
+<button class="btn primary" onclick="startGame()">START GAME →</button></div>
+<div class="rules"><div><b>15:00</b><small>TIME LIMIT</small></div><div><b>4</b><small>PUZZLES</small></div><div><b>1</b><small>EXIT</small></div></div>
+</section>
+
+<section id="game" class="screen">
+<div class="gamehead"><div><small id="label">LEVEL 01</small><h2 id="title"></h2></div><b id="timer">15:00</b></div>
+<div class="progress"><i id="bar"></i></div>
+<div class="card"><small id="puzzleNo"></small><div id="body"></div>
+<button id="hintBtn" class="btn secondary" onclick="hint()">SHOW HINT −50</button>
+<div id="hintBox" class="hint hidden"></div><div id="feedback" class="feedback hidden"></div></div>
+<div class="scorebar"><span>SCORE <b id="score">0</b></span><span>SOLVED <b id="solved">0</b>/4</span></div>
+</section>
+
+<section id="final" class="screen"><div class="hero"><small id="finalSmall">SYSTEM UNLOCKED</small>
+<h1 id="finalTitle">EXIT<br>FOUND</h1><p id="finalMsg"></p><div class="finalscore" id="finalScore">0</div><small>POINTS</small></div>
+<div class="card"><small>FINAL EXIT CODE</small><div class="exitcode" id="code">Y2-360</div><p id="explain"></p>
+<button class="btn primary" onclick="leaderboard()">VIEW LEADERBOARD</button><button class="btn secondary" onclick="location.reload()">PLAY AGAIN</button></div></section>
+
+<section id="board" class="screen"><div class="hero compact"><small>YEAR ONE // HALL OF FAME</small><h2>LEADERBOARD</h2>
+<p>Starter version: scores are stored on this device. See README for a shared online leaderboard.</p></div>
+<div class="card" id="scores"></div><button class="btn secondary" onclick="location.reload()">BACK</button></section>
+<footer>THE EXIT • YEAR ONE</footer></main><script src="script.js"></script></body></html>
